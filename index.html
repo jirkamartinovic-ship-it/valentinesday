@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentýnský den 💘</title>
+
+  <style>
+    :root{
+      --bg1:#ffb6c1;
+      --bg2:#ffd1dc;
+      --card:#ffffffcc;
+      --text:#3a0b1d;
+      --pink:#ff4d88;
+      --pink2:#ff77aa;
+      --shadow: 0 18px 55px rgba(58, 11, 29, .25);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body { height:100%; }
+    body{
+      margin:0;
+      font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.7) 0 8px, transparent 9px),
+        radial-gradient(circle at 80% 35%, rgba(255,255,255,.65) 0 7px, transparent 8px),
+        radial-gradient(circle at 30% 70%, rgba(255,255,255,.6) 0 6px, transparent 7px),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      background-size: 220px 220px, 260px 260px, 240px 240px, auto;
+      position: relative;
+    }
+
+    /* plovoucí srdíčka pozadí */
+    .heart-bg{ position:absolute; inset:0; pointer-events:none; opacity:.35; }
+    .heart{
+      position:absolute;
+      width:16px; height:16px;
+      transform: rotate(45deg);
+      background: rgba(255, 77, 136, .85);
+      border-radius: 4px;
+      animation: floatUp linear infinite;
+    }
+    .heart::before, .heart::after{
+      content:"";
+      position:absolute;
+      width:16px; height:16px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .heart::before{ left:-8px; top:0; }
+    .heart::after{ top:-8px; left:0; }
+    @keyframes floatUp {
+      from { transform: translateY(110vh) rotate(45deg); }
+      to   { transform: translateY(-20vh) rotate(45deg); }
+    }
+
+    .wrap{
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding: 24px;
+    }
+
+    .card{
+      width:min(820px, 94vw);
+      background: var(--card);
+      border: 2px solid rgba(255,255,255,.65);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 30px 26px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow:hidden;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: .2px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.08);
+    }
+    .badge .dot{
+      width:10px; height:10px;
+      border-radius:50%;
+      background: var(--pink);
+      box-shadow: 0 0 0 6px rgba(255,77,136,.15);
+    }
+
+    h1{
+      margin: 16px 0 10px;
+      font-size: clamp(28px, 4.4vw, 48px);
+      letter-spacing: -0.8px;
+      line-height: 1.05;
+    }
+    p{
+      margin: 0 0 18px;
+      font-size: 18px;
+      opacity:.92;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    button{
+      appearance:none;
+      border:none;
+      border-radius: 18px;
+      padding: 16px 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, filter .12s ease;
+    }
+
+    .plan-btn{
+      background: linear-gradient(135deg, rgba(255,255,255,.8), rgba(255,255,255,.65));
+      border: 2px solid rgba(255,77,136,.22);
+      color: #5b1028;
+      box-shadow: 0 14px 24px rgba(58,11,29,.12);
+      text-align:left;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      min-height: 62px;
+    }
+    .plan-btn:hover{ transform: translateY(-2px) scale(1.01); filter: brightness(1.02); }
+    .plan-btn:active{ transform: translateY(0px) scale(.99); }
+
+    .tag{
+      font-weight: 900;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,77,136,.12);
+      border: 1px solid rgba(255,77,136,.22);
+      white-space:nowrap;
+    }
+
+    .screen{ display:none; }
+    .screen.active{ display:block; }
+
+    .detail-title{
+      font-size: clamp(26px, 4vw, 42px);
+      margin: 14px 0 10px;
+      line-height: 1.1;
+      letter-spacing: -0.6px;
+    }
+
+    .detail-box{
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: 22px;
+      padding: 18px 16px;
+      box-shadow: 0 14px 26px rgba(58,11,29,.10);
+      margin-top: 10px;
+    }
+
+    .big-emo{ font-size: 22px; }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 16px;
+    }
+
+    .btn-back{
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color: #fff;
+      box-shadow: 0 16px 30px rgba(255,77,136,.35);
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 16px;
+    }
+    .btn-back:hover{ transform: translateY(-2px) scale(1.02); filter: brightness(1.03); }
+
+    .btn-next{
+      background: rgba(255,255,255,.78);
+      color:#6a1330;
+      border: 2px solid rgba(255,77,136,.25);
+      box-shadow: 0 12px 22px rgba(58,11,29,.10);
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 16px;
+    }
+
+    .footer-hint{
+      margin-top: 14px;
+      font-size: 13px;
+      opacity: .72;
+    }
+
+    @media (max-width: 640px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="heart-bg" id="heartBg" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="card">
+      <!-- SCREEN: PLAN -->
+      <div class="screen active" id="screenPlan">
+        <div class="badge"><span class="dot"></span>Valentýnský den 💘</div>
+        <h1>Co budeme dělat na Valentýna?</h1>
+        <p>Klikni na jednotlivé kroky… ať je to hezky postupně. <span class="big-emo">jejeeej 😄</span></p>
+
+        <div class="grid">
+          <button class="plan-btn" data-go="1">
+            <span>1) Palačinky + rybízová marmeláda</span>
+            <span class="tag">Ráno 🥞</span>
+          </button>
+
+          <button class="plan-btn" data-go="2">
+            <span>2) Future Minigolf v Brně</span>
+            <span class="tag">Zábava ⛳</span>
+          </button>
+
+          <button class="plan-btn" data-go="3">
+            <span>3) Valentýnské menu v Soyshi</span>
+            <span class="tag">Papů ❤️🍣</span>
+          </button>
+
+          <button class="plan-btn" data-go="4">
+            <span>4) Thomas &amp; Williams – valentýnské croissanty + káva</span>
+            <span class="tag">Sweet ☕🥐</span>
+          </button>
+
+          <button class="plan-btn" data-go="5">
+            <span>5) Kino</span>
+            <span class="tag">Film 🎬</span>
+          </button>
+
+          <button class="plan-btn" data-go="6">
+            <span>6) Hurá domů a odpočinek</span>
+            <span class="tag">Chill 🛋️</span>
+          </button>
+        </div>
+
+        <div class="footer-hint">Tip: Tohle je „mini web“ – klidně to pošli jako odkaz nebo otevři v mobilu.</div>
+      </div>
+
+      <!-- SCREEN: DETAIL 1 -->
+      <div class="screen" id="screen1">
+        <div class="badge"><span class="dot"></span>Krok 1 / 6</div>
+        <div class="detail-title">Palačinky! 🥞💘</div>
+        <div class="detail-box">
+          <p>
+            Udělal jsem ti palačinky a k tomu máš svoji oblíbenou <b>rybízovou marmeládu</b>…
+            <span class="big-emo">jeeeej</span> 😄💞
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn-back" data-back>⬅ Zpátky na plán</button>
+          <button class="btn-next" data-go="2">Další krok ➜</button>
+        </div>
+      </div>
+
+      <!-- SCREEN: DETAIL 2 -->
+      <div class="screen" id="screen2">
+        <div class="badge"><span class="dot"></span>Krok 2 / 6</div>
+        <div class="detail-title">Future Minigolf v Brně! ⛳✨</div>
+        <div class="detail-box">
+          <p>
+            Později během dne… jedeme na <b>Future Minigolf v Brně</b>!
+            <span class="big-emo">jeeeeej</span> 😄💘
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn-back" data-back>⬅ Zpátky na plán</button>
+          <button class="btn-next" data-go="3">Další krok ➜</button>
+        </div>
+      </div>
+
+      <!-- SCREEN: DETAIL 3 -->
+      <div class="screen" id="screen3">
+        <div class="badge"><span class="dot"></span>Krok 3 / 6</div>
+        <div class="detail-title">Valentýnské menu v Soyshi! 🍣💖</div>
+        <div class="detail-box">
+          <p>
+            Pak nás čeká <b>Valentýnské menu v Soyshi</b>…
+            <span class="big-emo">juchůůů</span> 😍🍣💞
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn-back" data-back>⬅ Zpátky na plán</button>
+          <button class="btn-next" data-go="4">Další krok ➜</button>
+        </div>
+      </div>
+
+      <!-- SCREEN: DETAIL 4 -->
+      <div class="screen" id="screen4">
+        <div class="badge"><span class="dot"></span>Krok 4 / 6</div>
+        <div class="detail-title">Thomas &amp; Williams: croissanty + káva 🥐☕</div>
+        <div class="detail-box">
+          <p>
+            Zastávka pro sladký život: jdeme do <b>Thomas &amp; Williams</b>
+            si vyzvednout <b>valentýnské croissanty</b> a dát si k tomu dobrou kávu…
+            <span class="big-emo">jejeeej</span> 😄💘
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn-back" data-back>⬅ Zpátky na plán</button>
+          <button class="btn-next" data-go="5">Další krok ➜</button>
+        </div>
+      </div>
+
+      <!-- SCREEN: DETAIL 5 -->
+      <div class="screen" id="screen5">
+        <div class="badge"><span class="dot"></span>Krok 5 / 6</div>
+        <div class="detail-title">Kinooo! 🎬💞</div>
+        <div class="detail-box">
+          <p>
+            A pak… <b>kino</b>! Pohodlí, popcorn (nebo nachos 😄) a společně…
+            <span class="big-emo">juchůůů</span> 🥰🎬💘
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn-back" data-back>⬅ Zpátky na plán</button>
+          <button class="btn-next" data-go="6">Další krok ➜</button>
+        </div>
+      </div>
+
+      <!-- SCREEN: DETAIL 6 -->
+      <div class="screen" id="screen6">
+        <div class="badge"><span class="dot"></span>Krok 6 / 6</div>
+        <div class="detail-title">Hurá domů… a odpočinek 🛋️💘</div>
+        <div class="detail-box">
+          <p>
+            Po tak krásném dni… <b>hurááá domů</b> 😄💞  
+            Zachumlat se, odpočívat a užívat si, že jsme spolu.
+            <span class="big-emo">nejvíc!</span> 🥰✨
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn-back" data-back>⬅ Zpátky na plán</button>
+          <button class="btn-next" data-go="plan">Zpátky na plán ✨</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // --- Srdíčka pozadí
+    const heartBg = document.getElementById("heartBg");
+    const HEARTS = 22;
+
+    for (let i = 0; i < HEARTS; i++) {
+      const h = document.createElement("div");
+      h.className = "heart";
+
+      const left = Math.random() * 100;
+      const size = 10 + Math.random() * 18;
+      const dur = 6 + Math.random() * 9;
+      const delay = -Math.random() * dur;
+
+      h.style.left = left + "vw";
+      h.style.width = size + "px";
+      h.style.height = size + "px";
+      h.style.animationDuration = dur + "s";
+      h.style.animationDelay = delay + "s";
+      h.style.opacity = 0.25 + Math.random() * 0.55;
+
+      heartBg.appendChild(h);
+    }
+
+    // --- Navigace mezi "obrazovkami"
+    const screens = {
+      plan: document.getElementById("screenPlan"),
+      1: document.getElementById("screen1"),
+      2: document.getElementById("screen2"),
+      3: document.getElementById("screen3"),
+      4: document.getElementById("screen4"),
+      5: document.getElementById("screen5"),
+      6: document.getElementById("screen6"),
+    };
+
+    function show(screenKey){
+      Object.values(screens).forEach(s => s.classList.remove("active"));
+      screens[screenKey].classList.add("active");
+      // lehký "scroll to top" do karty (když je menší displej)
+      document.querySelector(".card").scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    // kliknutí na tlačítka s data-go
+    document.addEventListener("click", (e) => {
+      const goBtn = e.target.closest("[data-go]");
+      if (goBtn){
+        const target = goBtn.getAttribute("data-go");
+        if (target === "plan") show("plan");
+        else show(target);
+      }
+
+      const backBtn = e.target.closest("[data-back]");
+      if (backBtn){
+        show("plan");
+      }
+    });
+  </script>
+</body>
+</html>
+
